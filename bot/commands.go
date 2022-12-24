@@ -7,6 +7,26 @@ import (
 )
 
 // ==========================================================================
+// add whitelisted discord server ids here
+var WhiteList = []string{
+	"739059784174534699",
+	"924752725428797460",
+	"827932189894770688",
+	"522652161067188244",
+}
+
+// ==========================================================================
+
+func checkWhitelist(id string) bool {
+	for _, v := range WhiteList {
+		if id == v {
+			return true
+		}
+	}
+	return false
+}
+
+// ==========================================================================
 
 func Ready(s *discordgo.Session, event *discordgo.Ready) {
 	registeredCommands := make([]*discordgo.ApplicationCommand, len(commands))
@@ -78,8 +98,20 @@ var CommandHandlers = map[string]func(s *discordgo.Session, i *discordgo.Interac
 			})
 			return
 		}
+		//  if the guild is not in the whitelist, return an error
 
 		// Get the query value and translate it
+		fmt.Println(i.GuildID)
+		if !checkWhitelist(i.GuildID) {
+			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+				Type: discordgo.InteractionResponseChannelMessageWithSource,
+				Data: &discordgo.InteractionResponseData{
+					Content: "Error: This Discord Server is not whitelisted. Please contact the bot owner to get whitelisted. Goose#7218",
+				},
+			})
+			return
+		}
+
 		query := queryOption.StringValue()
 		output := TranslateToJapanese(query)
 
@@ -112,6 +144,17 @@ var CommandHandlers = map[string]func(s *discordgo.Session, i *discordgo.Interac
 			return
 		}
 		// get the query value and translate it
+
+		if !checkWhitelist(i.GuildID) {
+			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+				Type: discordgo.InteractionResponseChannelMessageWithSource,
+				Data: &discordgo.InteractionResponseData{
+					Content: "Error: This Discord Server is not whitelisted. Please contact the bot owner to get whitelisted. Goose#7218",
+				},
+			})
+			return
+		}
+
 		query := queryOption.StringValue()
 		output := TranslateToEnglish(query)
 
