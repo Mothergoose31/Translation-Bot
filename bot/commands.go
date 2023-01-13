@@ -34,11 +34,14 @@ func Ready(s *discordgo.Session, event *discordgo.Ready) {
 		}
 		registeredCommands[i] = cmd
 	}
-	// Set the playing status."
-	err := s.UpdateListeningStatus("Christmas carols 🎅")
-	if err != nil {
-		fmt.Println("Error attempting to set my status")
-	}
+	// Set the activty status."
+        var act []*discordgo.Activity
+	act = append(act, &discordgo.Activity{Name: "translations for users", URL: "https://www.twitch.tv/kuebikobot", Type: discordgo.ActivityTypeStreaming})
+	err := s.UpdateStatusComplex(discordgo.UpdateStatusData{
+		Activities: act,
+		AFK:        false,
+		Status:     string(discordgo.StatusOnline),
+	})
 }
 
 // ==========================================================================
