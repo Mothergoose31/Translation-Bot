@@ -42,6 +42,9 @@ func Ready(s *discordgo.Session, event *discordgo.Ready) {
 		AFK:        false,
 		Status:     string(discordgo.StatusOnline),
 	})
+	if err != nil {
+	    fmt.Println("Error attempting to set my status")
+	}
 }
 
 // ==========================================================================
