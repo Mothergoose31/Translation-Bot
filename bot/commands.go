@@ -36,7 +36,7 @@ func Ready(s *discordgo.Session, event *discordgo.Ready) {
 	}
 	// Set the activty status."
         var act []*discordgo.Activity
-	act = append(act, &discordgo.Activity{Name: "Christmas carols 🎅", Type: discordgo.ActivityTypeListening})
+	act = append(act, &discordgo.Activity{Name: "translations for users", URL: "https://www.twitch.tv/kuebikobot", Type: discordgo.ActivityTypeStreaming})
 	err := s.UpdateStatusComplex(discordgo.UpdateStatusData{
 		Activities: act,
 		AFK:        false,
